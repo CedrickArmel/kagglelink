@@ -8,6 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 ZROK_TOKEN=$1
+ZROK_LOCAL_PORT=$2
 
 echo "Starting zrok service..."
 if [ -z "$ZROK_TOKEN" ]; then
@@ -23,4 +24,8 @@ zrok enable "$ZROK_TOKEN" || {
 
 echo "Starting zrok share in headless mode..."
 echo "Starting zrok share now..."
-zrok share private --headless --backend-mode tcpTunnel localhost:22
+if [ -z "$ZROK_LOCAL_PORT" ]; then
+    echo "Warning: ZROK_LOCAL_PORT not provided. Defaulting to 22"
+    ZROK_LOCAL_PORT=22
+fi
+zrok share private --headless --backend-mode tcpTunnel localhost:"$ZROK_LOCAL_PORT"
