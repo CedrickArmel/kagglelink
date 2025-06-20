@@ -3,7 +3,7 @@
 set -e
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: ./setup_kaggle_zrok.sh <authorized_keys_url>"
+    echo "Usage: ./setup_kaggle_zrok.sh <authorized_keys_url> <port_to_share>"
     exit 1
 fi
 
@@ -47,6 +47,11 @@ copy_vscode_dir() {
         echo ".vscode directory not found in repository at $vscode_dir_in_repo."
     fi
 }
+
+if [ -z "$ZROK_LOCAL_PORT" ]; then
+    echo "Warning: ZROK_LOCAL_PORT not provided. Defaulting to 22"
+    ZROK_LOCAL_PORT=22
+fi
 
 configure_sshd() {
     mkdir -p /var/run/sshd
