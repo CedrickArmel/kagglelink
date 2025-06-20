@@ -8,6 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 AUTH_KEYS_URL=$1
+ZROK_LOCAL_PORT=$2
 
 setup_ssh_directory() {
     echo "Setting up SSH directory in user's home..."
@@ -51,7 +52,7 @@ configure_sshd() {
     mkdir -p /var/run/sshd
     echo "Configuring sshd..."
     cat <<EOF >>/etc/ssh/sshd_config
-Port 22
+Port $ZROK_LOCAL_PORT
 Protocol 2
 PermitRootLogin yes
 PasswordAuthentication yes
