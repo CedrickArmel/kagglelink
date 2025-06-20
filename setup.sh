@@ -74,7 +74,7 @@ echo "⏳ Making scripts executable..."
 chmod +x setup_kaggle_zrok.sh start_zrok.sh
 
 echo "⏳ Setting up SSH with your public keys..."
-./setup_kaggle_zrok.sh "$AUTH_KEYS_URL"
+./setup_kaggle_zrok.sh "$AUTH_KEYS_URL" "$ZROK_LOCAL_PORT"
 
 echo "⏳ Starting zrok service with your token..."
 ./start_zrok.sh "$ZROK_TOKEN" "$ZROK_LOCAL_PORT"
