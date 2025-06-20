@@ -8,15 +8,16 @@ echo "For more information check out: https://github.com/bhdai/kagglelink"
 echo "===================================="
 
 # Default repository URL and branch
-REPO_URL="https://github.com/bhdai/kagglelink.git"
+REPO_URL="https://github.com/CedrickArmel/kagglelink.git"
 INSTALL_DIR="/tmp/kagglelink"
 
 # Function to display usage information
 usage() {
-    echo "Usage: curl -sS https://raw.githubusercontent.com/bhdai/kagglelink/refs/heads/main/setup.sh | bash -s -- -k <your_public_key_url> -t <your_zrok_token>"
+    echo "Usage: curl -sS https://raw.githubusercontent.com/bhdai/kagglelink/refs/heads/main/setup.sh | bash -s -- -p <the_port_to_share> -k <your_public_key_url> -t <your_zrok_token>"
     echo ""
     echo "Options:"
     echo "  -k, --keys-url URL    URL to your authorized_keys file"
+    echo "  -p, --port            Port on the localhost to share"
     echo "  -t, --token TOKEN     Your zrok token"
     echo "  -h, --help            Display this help message"
     exit 1
@@ -27,6 +28,10 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -k|--keys-url)
             AUTH_KEYS_URL="$2"
+            shift 2
+            ;;
+        -p|--port)
+            ZROK_LOCAL_PORT="$2"
             shift 2
             ;;
         -t|--token)
@@ -72,7 +77,7 @@ echo "⏳ Setting up SSH with your public keys..."
 ./setup_kaggle_zrok.sh "$AUTH_KEYS_URL"
 
 echo "⏳ Starting zrok service with your token..."
-./start_zrok.sh "$ZROK_TOKEN"
+./start_zrok.sh "$ZROK_TOKEN" "$ZROK_LOCAL_PORT"
 
 echo "✅ Setup complete!"
 echo "✅ You should now be able to connect to your Kaggle instance via SSH."
